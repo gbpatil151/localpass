@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "459314018601",
+    "project_id": "localpass-3ef5f",
+    "storage_bucket": "localpass-3ef5f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459314018601:android:62fe9c3973ea8d04e19f38",
+        "android_client_info": {
+          "package_name": "com.example.localpass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUc9lVoqqnTaJmkZigMwjgHt3DDelpzvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
