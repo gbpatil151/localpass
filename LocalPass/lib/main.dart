@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-// Import your new files
+// Import your new screens and services
 import 'package:localpass/services/auth_service.dart';
-import 'package:localpass/screens/home_screen.dart';
 import 'package:localpass/screens/login_screen.dart';
+import 'package:localpass/screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,18 +46,16 @@ class AuthWrapper extends StatelessWidget {
       // Listen to the auth state stream from AuthService
       stream: authService.authStateChanges,
       builder: (context, snapshot) {
-        // 1. Check if the stream is still loading
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
-        // 2. Check if we have data (a user)
         if (snapshot.hasData) {
-          // User is logged in
-          return HomeScreen();
+          // User is logged in: SHOW THE MAIN NAVIGATION SCREEN
+          return const MainScreen();
         } else {
-          // User is logged out
-          return LoginScreen();
+          // User is logged out: SHOW THE LOGIN SCREEN
+          return const LoginScreen();
         }
       },
     );

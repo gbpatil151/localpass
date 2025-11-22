@@ -12,7 +12,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  // NEW: Get instance of AuthService
   final AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                // NEW: Call Login Logic
                 String email = _emailController.text.trim();
                 String password = _passwordController.text.trim();
 
@@ -47,8 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     // TODO: Show an error (e.g., "Invalid credentials")
                     print("Login failed");
                   }
-                  // If login is successful, the AuthWrapper will
-                  // automatically handle navigation to HomeScreen.
                 }
               },
               child: Text('Login'),
@@ -56,7 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
             TextButton(
               onPressed: () {
                 // TODO: Navigate to Sign Up Screen
-                // NEW: Navigate to Sign Up Screen
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => SignUpScreen()),
                 );
