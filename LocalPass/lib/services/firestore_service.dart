@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:localpass/models/event.dart';
 import 'package:localpass/models/pass.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -14,6 +14,24 @@ class FirestoreService {
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => Event.fromFirestore(doc))
+        .toList());
+  }
+
+  Stream<List<Pass>> getPasses(String status) {
+    User? user = _auth.currentUser;
+    if (user == null) {
+      return Stream.value([]);
+    }
+
+    return _db
+        .collection('users')
+        .doc(user.uid)
+        .collection('myPasses')
+        .where('status', isEqualTo: status)
+        .orderBy('eventDate', descending: false)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => Pass.fromFirestore(doc))
         .toList());
   }
 
@@ -45,23 +63,5 @@ class FirestoreService {
     };
 
     await userPasses.add(passData);
-  }
-
-  Stream<List<Pass>> getPasses(String status) {
-    User? user = _auth.currentUser;
-    if (user == null) {
-      return Stream.value([]);
-    }
-
-    return _db
-        .collection('users')
-        .doc(user.uid)
-        .collection('myPasses')
-        .where('status', isEqualTo: status)
-        .orderBy('eventDate', descending: false)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-        .map((doc) => Pass.fromFirestore(doc))
-        .toList());
   }
 }
