@@ -10,7 +10,7 @@ class MyPassesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 2, // Upcoming and Used
       child: Scaffold(
         appBar: AppBar(
           title: Text('My Passes'),
@@ -23,12 +23,12 @@ class MyPassesScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-
+            // Tab 1: Upcoming Passes
             _PassList(
               status: 'upcoming',
               firestoreService: _firestoreService,
             ),
-
+            // Tab 2: Used Passes
             _PassList(
               status: 'used',
               firestoreService: _firestoreService,
@@ -74,10 +74,47 @@ class _PassList extends StatelessWidget {
               child: ListTile(
                 title: Text(pass.eventName),
                 subtitle: Text('Acquired: ${pass.acquiredDate.toDate().toString().split(' ')[0]}'),
+
+                // === CHECK-IN BUTTON LOGIC ===
                 trailing: status == 'upcoming'
                     ? ElevatedButton(
-                  onPressed: () {
-                    // TODO: Stage 4: Implement Check-In logic
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () async {
+                    try {
+                      // 1. Feedback to user
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Verifying location...'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+
+                      // 2. Call the Check-In Logic
+                      await firestoreService.checkIn(pass);
+
+                      // 3. Success Message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Check-in Successful! Welcome!'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                      // The StreamBuilder will automatically update the UI
+                      // and move the pass to the "Used" tab.
+
+                    } catch (e) {
+                      // 4. Error Message (e.g., Too far away)
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          // Remove "Exception: " text to make it cleaner
+                          content: Text(e.toString().replaceAll('Exception: ', '')),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   },
                   child: Text('Check-In'),
                 )

@@ -9,19 +9,27 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
   final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Sign Up')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Full Name'),
+              textCapitalization: TextCapitalization.words,
+            ),
+            SizedBox(height: 12),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(labelText: 'Email'),
@@ -33,27 +41,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(labelText: 'Password (min. 6 chars)'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 24),
             ElevatedButton(
               onPressed: () async {
+                String name = _nameController.text.trim();
                 String email = _emailController.text.trim();
                 String password = _passwordController.text.trim();
 
-                if (email.isNotEmpty && password.isNotEmpty) {
-                  var user = await _authService.signUp(email, password);
+                if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+                  var user = await _authService.signUp(email, password, displayName: name);
+
                   if (user != null) {
                     Navigator.of(context).pop();
                   } else {
-                    // TODO: Show an error message
-                    print("Sign up failed");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Sign up failed. Email might be in use.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please fill in all fields.')),
+                  );
                 }
               },
               child: Text('Sign Up'),
             ),
             TextButton(
               onPressed: () {
-                // TODO: Navigate back to Login Screen
                 Navigator.of(context).pop();
               },
               child: Text('Already have an account? Login'),
