@@ -17,7 +17,6 @@ class Pass {
     required this.acquiredDate,
   });
 
-  // Factory constructor to create a Pass from a Firestore document
   factory Pass.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Pass(

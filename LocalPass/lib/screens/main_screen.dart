@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile', // New Profile Tab
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

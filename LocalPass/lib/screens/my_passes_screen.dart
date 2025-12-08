@@ -17,19 +17,17 @@ class MyPassesScreen extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Upcoming', icon: Icon(Icons.timer)),
-              Tab(text: 'History', icon: Icon(Icons.history)), // Renamed Tab
+              Tab(text: 'History', icon: Icon(Icons.history)),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            // Tab 1: Upcoming Passes (Uses the new getUpcomingPasses)
             _PassList(
               stream: _firestoreService.getUpcomingPasses(),
               isHistory: false,
               firestoreService: _firestoreService,
             ),
-            // Tab 2: History (Uses the new getPassHistory)
             _PassList(
               stream: _firestoreService.getPassHistory(),
               isHistory: true,
@@ -43,14 +41,14 @@ class MyPassesScreen extends StatelessWidget {
 }
 
 class _PassList extends StatelessWidget {
-  final Stream<List<Pass>> stream; // Now accepts a stream directly
+  final Stream<List<Pass>> stream;
   final bool isHistory;
   final FirestoreService firestoreService;
 
   const _PassList({
     required this.stream,
     required this.isHistory,
-    required this.firestoreService
+    required this.firestoreService,
   });
 
   @override
@@ -68,7 +66,8 @@ class _PassList extends StatelessWidget {
         final passes = snapshot.data ?? [];
 
         if (passes.isEmpty) {
-          return Center(child: Text(isHistory ? 'No history yet.' : 'No upcoming passes.'));
+          return Center(
+              child: Text(isHistory ? 'No history yet.' : 'No upcoming passes.'));
         }
 
         return ListView.builder(
@@ -77,19 +76,18 @@ class _PassList extends StatelessWidget {
           itemBuilder: (context, index) {
             final pass = passes[index];
             return Card(
-              // Change color for expired passes to make them distinct
               color: pass.status == 'expired' ? Colors.grey[200] : Colors.white,
               child: ListTile(
                 title: Text(
                   pass.eventName,
                   style: TextStyle(
                     color: pass.status == 'expired' ? Colors.grey : Colors.black,
-                    decoration: pass.status == 'expired' ? TextDecoration.lineThrough : null,
+                    decoration: pass.status == 'expired'
+                        ? TextDecoration.lineThrough
+                        : null,
                   ),
                 ),
                 subtitle: Text('Status: ${pass.status.toUpperCase()}'),
-
-                // === TRAILING ICON LOGIC ===
                 trailing: _buildTrailingWidget(context, pass),
               ),
             );
@@ -101,7 +99,6 @@ class _PassList extends StatelessWidget {
 
   Widget _buildTrailingWidget(BuildContext context, Pass pass) {
     if (pass.status == 'upcoming') {
-      // Show Check-In Button
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
@@ -111,10 +108,8 @@ class _PassList extends StatelessWidget {
         child: Text('Check-In'),
       );
     } else if (pass.status == 'used') {
-      // Green Check for Used
       return Icon(Icons.check_circle, color: Colors.green, size: 30);
     } else {
-      // Red/Grey Cross for Expired
       return Icon(Icons.cancel, color: Colors.grey, size: 30);
     }
   }
@@ -122,13 +117,17 @@ class _PassList extends StatelessWidget {
   void _handleCheckIn(BuildContext context, Pass pass) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verifying location...'), duration: Duration(seconds: 1)),
+        SnackBar(
+            content: Text('Verifying location...'),
+            duration: Duration(seconds: 1)),
       );
 
       await firestoreService.checkIn(pass);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Check-in Successful!'), backgroundColor: Colors.green),
+        SnackBar(
+            content: Text('Check-in Successful!'),
+            backgroundColor: Colors.green),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

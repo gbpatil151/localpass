@@ -21,7 +21,6 @@ class Event {
     required this.organizer,
   });
 
-  // A factory constructor to create an Event from a Firestore document
   factory Event.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Event(

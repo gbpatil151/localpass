@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     if (e.code == 'user-not-found') {
                       errorMessage = 'No user found for that email.';
-                    } else if (e.code == 'wrong-password') { // Note: Firebase sometimes uses 'invalid-credential' now
+                    } else if (e.code == 'wrong-password') {
                       errorMessage = 'Wrong password provided.';
                     } else if (e.code == 'invalid-credential') {
                       errorMessage = 'Invalid email or password.';
