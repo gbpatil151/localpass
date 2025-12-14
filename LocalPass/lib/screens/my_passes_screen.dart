@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:localpass/models/pass.dart';
 import 'package:localpass/services/firestore_service.dart';
 
+// Screen displaying user's passes with tabs for upcoming and history
 class MyPassesScreen extends StatelessWidget {
   MyPassesScreen({Key? key}) : super(key: key);
 
@@ -97,6 +98,7 @@ class _PassList extends StatelessWidget {
     );
   }
 
+  // Builds trailing widget based on pass status
   Widget _buildTrailingWidget(BuildContext context, Pass pass) {
     if (pass.status == 'upcoming') {
       return ElevatedButton(
@@ -114,6 +116,7 @@ class _PassList extends StatelessWidget {
     }
   }
 
+  // Handles check-in process with location verification
   void _handleCheckIn(BuildContext context, Pass pass) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -122,6 +125,7 @@ class _PassList extends StatelessWidget {
             duration: Duration(seconds: 1)),
       );
 
+      // Verify location and update pass status
       await firestoreService.checkIn(pass);
 
       ScaffoldMessenger.of(context).showSnackBar(

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localpass/services/auth_service.dart';
 import 'package:localpass/screens/add_event_screen.dart';
 
+// Profile screen showing user info, wallet balance, and admin options
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
 
@@ -93,6 +94,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
+                // Show admin button only for admin user
                 if (email == adminEmail) ...[
                   SizedBox(
                     width: double.infinity,

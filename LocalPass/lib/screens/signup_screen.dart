@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localpass/services/auth_service.dart';
 
+// Sign up screen for creating new user accounts
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 

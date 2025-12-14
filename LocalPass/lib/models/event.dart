@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Event model representing a local event with location, cost, and details
 class Event {
   final String id;
   final String title;
@@ -21,6 +22,7 @@ class Event {
     required this.organizer,
   });
 
+  // Creates Event instance from Firestore document
   factory Event.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Event(

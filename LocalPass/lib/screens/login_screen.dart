@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart'; // Import this for Exception handling
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localpass/services/auth_service.dart';
 import 'package:localpass/screens/signup_screen.dart';
 
+// Login screen for user authentication
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -43,11 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 if (email.isNotEmpty && password.isNotEmpty) {
                   try {
-                    // Try to sign in
                     await _authService.signIn(email, password);
-                    // If successful, AuthWrapper handles navigation
+                    // Navigation handled by AuthWrapper
                   } on FirebaseAuthException catch (e) {
-                    // HANDLE SPECIFIC ERRORS HERE
+                    // Handle specific Firebase auth errors
                     String errorMessage = 'Login failed. Please try again.';
 
                     if (e.code == 'user-not-found') {

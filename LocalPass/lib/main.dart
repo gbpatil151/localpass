@@ -6,6 +6,7 @@ import 'package:localpass/services/auth_service.dart';
 import 'package:localpass/screens/login_screen.dart';
 import 'package:localpass/screens/main_screen.dart';
 
+// Entry point - initializes Firebase and starts the app
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// Wrapper that handles authentication state and routes to appropriate screen
 class AuthWrapper extends StatelessWidget {
   final AuthService authService;
 
@@ -46,6 +48,7 @@ class AuthWrapper extends StatelessWidget {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
+        // Show main screen if logged in, otherwise show login
         if (snapshot.hasData) {
           return const MainScreen();
         } else {

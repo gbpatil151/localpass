@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:localpass/models/event.dart';
 import 'package:localpass/services/firestore_service.dart';
 
+// Screen displaying event details and purchase option
 class EventDetailsScreen extends StatelessWidget {
   final Event event;
 
@@ -60,6 +61,7 @@ class EventDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Handles pass purchase button - checks eligibility and shows appropriate dialog
   void _handleGetPassPress(BuildContext context) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -68,6 +70,7 @@ class EventDetailsScreen extends StatelessWidget {
     );
 
     try {
+      // Check if user can purchase this pass
       Map<String, dynamic> check =
       await _firestoreService.checkPurchaseEligibility(event);
       String status = check['status'];
@@ -120,12 +123,14 @@ class EventDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Processes the pass purchase transaction
   Future<void> _processPurchase(BuildContext context) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Processing transaction...')),
       );
 
+      // Purchase pass and deduct from wallet
       await _firestoreService.getPass(event);
 
       ScaffoldMessenger.of(context).showSnackBar(

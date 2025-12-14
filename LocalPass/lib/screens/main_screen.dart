@@ -3,6 +3,7 @@ import 'package:localpass/screens/event_feed_screen.dart';
 import 'package:localpass/screens/my_passes_screen.dart';
 import 'package:localpass/screens/profile_screen.dart';
 
+// Main screen with bottom navigation for Events, My Passes, and Profile
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 

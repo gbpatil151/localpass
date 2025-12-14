@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Pass model representing a user's event pass/ticket
 class Pass {
   final String id;
   final String eventId;
@@ -17,6 +18,7 @@ class Pass {
     required this.acquiredDate,
   });
 
+  // Creates Pass instance from Firestore document
   factory Pass.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Pass(

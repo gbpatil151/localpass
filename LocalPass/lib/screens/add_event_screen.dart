@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:localpass/services/firestore_service.dart';
 
+// Admin screen for creating new events
 class AddEventScreen extends StatefulWidget {
   const AddEventScreen({Key? key}) : super(key: key);
 
@@ -131,7 +132,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  // Helper: Date & Time Picker
+  // Opens date and time pickers
   Future<void> _pickDateTime() async {
     DateTime? date = await showDatePicker(
       context: context,
@@ -150,7 +151,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
   }
 
-  // Helper: Get GPS
+  // Fills location fields with current GPS coordinates
   Future<void> _fillCurrentLocation() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) permission = await Geolocator.requestPermission();
@@ -164,11 +165,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
     }
   }
 
-  // Submit Logic
+  // Validates form and creates event in Firestore
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Combine Date and Time
+    // Combine selected date and time
     final eventDateTime = DateTime(
         _selectedDate.year, _selectedDate.month, _selectedDate.day,
         _selectedTime.hour, _selectedTime.minute

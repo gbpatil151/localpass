@@ -4,6 +4,7 @@ import 'package:localpass/screens/event_details_screen.dart';
 import 'package:localpass/services/auth_service.dart';
 import 'package:localpass/services/firestore_service.dart';
 
+// Screen displaying list of events with search and category filters
 class EventFeedScreen extends StatefulWidget {
   const EventFeedScreen({Key? key}) : super(key: key);
 
@@ -108,6 +109,7 @@ class _EventFeedScreenState extends State<EventFeedScreen> {
 
                 final allEvents = snapshot.data ?? [];
 
+                // Filter events by category and search query
                 final filteredEvents = allEvents.where((event) {
                   if (_selectedCategory != "All" &&
                       event.category != _selectedCategory) {
