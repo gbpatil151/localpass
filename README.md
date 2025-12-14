@@ -11,8 +11,8 @@ A complete walkthrough of the app features is available in the presentation file
 
 * **User Authentication:** Secure Login and Sign-up via Firebase Auth.
 * **Event Discovery:** Browse upcoming events with **Search** and **Category Filters**.
-* **Smart Wallet System:** Users can add funds and purchase tickets.
-    * *Purchase Logic:* Prevents duplicate purchases and blocks sales 1 hour before the event.
+* **Smart Wallet System:** Users purchase tickets using their virtual wallet balance.
+    * *Purchase Logic:* checks balance, prevents duplicate purchases, and blocks sales 1 hour before the event.
 * **Geofenced Check-In:**
     * Validates user location (must be within 150m of venue).
     * Enforces time windows (check-in available 2 hours before event start).
